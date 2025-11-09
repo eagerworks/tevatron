@@ -1,6 +1,6 @@
 import torch
 import logging
-from transformers import Qwen2_5OmniThinkerForConditionalGeneration
+from transformers import Qwen3VLForConditionalGeneration
 from .encoder import EncoderModel
 
 logger = logging.getLogger(__name__)
@@ -40,7 +40,7 @@ class DenseModel(EncoderModel):
 
 
 class MultiModalDenseModel(DenseModel):
-    TRANSFORMER_CLS = Qwen2_5OmniThinkerForConditionalGeneration
+    TRANSFORMER_CLS = Qwen3VLForConditionalGeneration
 
     def __init__(self, encoder, pooling='eos', normalize=True, temperature=0.02):
         super().__init__(encoder, pooling, normalize, temperature)
@@ -48,10 +48,7 @@ class MultiModalDenseModel(DenseModel):
         self.encoder = encoder
         for param in self.encoder.visual.parameters():
             param.requires_grad = False
-        # freeze audio_tower
-        for param in self.encoder.audio_tower.parameters():
-            param.requires_grad = False
-        self.config.hidden_size = 3584
+        self.config.hidden_size = 4096
 
     def gradient_checkpointing_enable(self, **kwargs):
         self.encoder.model.gradient_checkpointing_enable()
