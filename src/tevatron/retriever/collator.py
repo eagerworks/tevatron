@@ -156,8 +156,8 @@ class MultiModalTrainCollator:
         ]
         
         if self.data_args.append_eos_token:
-            query_texts = [x[0] + '<|endoftext|>' for x in query_texts]
-            passage_texts = [x[0] + '<|endoftext|>' for x in passage_texts]
+            query_texts = [x + '<|endoftext|>' for x in query_texts]
+            passage_texts = [x + '<|endoftext|>' for x in passage_texts]
         
 
         # audios, images, videos = process_mm_info(conversation, use_audio_in_video=False)
@@ -275,7 +275,7 @@ class MultiModalEncodeCollator:
         ]
         
         if self.data_args.append_eos_token:
-            texts = [x[0] + '<|endoftext|>' for x in texts]
+            texts = [x + '<|endoftext|>' for x in texts]
 
         audio_inputs, image_inputs, video_inputs = process_mm_info(messages, use_audio_in_video=False)
 
@@ -349,7 +349,7 @@ class VllmMultiModalEncodeCollator(MultiModalEncodeCollator):
         ]
 
         if self.data_args.append_eos_token:
-            texts = [x[0] + '<|endoftext|>' for x in texts]
+            texts = [x + '<|endoftext|>' for x in texts]
 
 
         audio_inputs, image_inputs, video_inputs = process_mm_info(messages, use_audio_in_video=False)
